@@ -1,11 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>HI SORU 2</h1>
-</body>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sayı Listeleme ve Rastgele Seçme</title>
+    <style>
+      .number-span {
+        display: inline-block;
+        width: 20px;
+      }
+      .highlight {
+        color: red;
+        font-weight: bold;
+      }
+      .red {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>1'den 99'a kadar olan sayıları for döngüsü ile yan yana</h2>
+    <button id="btnSort" onclick="sortNumbers()">Sırala</button>
+    <button id="btnRandom" onclick="randomizeNumber()">
+      Rastgele Sayı Seç
+    </button>
+    <div id="numberContainer"></div>
+
+    <script>
+      const numbers = Array.from({ length: 99 }, (_, i) => i + 1);
+      const numberContainer = document.getElementById("numberContainer");
+      const btnSort = document.getElementById("btnSort");
+      const btnRandom = document.getElementById("btnRandom");
+      let previousRandomSpan = null;
+
+      function displayNumbersInline() {
+        numberContainer.innerHTML = "";
+        numbers.forEach((number) => {
+          const span = document.createElement("span");
+          span.className = "number-span";
+          span.textContent = number;
+          numberContainer.appendChild(span);
+        });
+      }
+
+      function displayNumbersSorted() {
+        numberContainer.innerHTML = "";
+        numbers.forEach((number, index) => {
+          const span = document.createElement("span");
+          span.className = "number-span";
+          span.textContent = number;
+          numberContainer.appendChild(span);
+          if ((index + 1) % 10 === 0) {
+            const br = document.createElement("br");
+            numberContainer.appendChild(br);
+          }
+        });
+      }
+
+      function sortNumbers() {
+        displayNumbersSorted();
+        btnSort.disabled = true;
+        btnRandom.disabled = false;
+      }
+
+      function randomizeNumber() {
+        if (previousRandomSpan) {
+          previousRandomSpan.classList.remove("highlight");
+          previousRandomSpan.classList.add("red");
+        }
+        const randomIndex = Math.floor(Math.random() * numbers.length);
+        const randomSpan = numberContainer.children[randomIndex];
+
+        randomSpan.classList.add("highlight");
+
+        previousRandomSpan = randomSpan;
+
+        btnSort.disabled = false;
+      }
+
+      window.onload = displayNumbersInline;
+    </script>
+  </body>
 </html>
